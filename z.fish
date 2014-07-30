@@ -17,6 +17,7 @@
 
 function addzhist --on-variable PWD
   z --add "$PWD"
+  _z_update_completions
 end
 
 function z -d "Jump to a recent directory."
@@ -187,3 +188,9 @@ function z -d "Jump to a recent directory."
         end
     end
 end
+
+function _z_update_completions
+    set -x _z_marks (cat $HOME/.z | sed "s/|.*//" | tr '\n' ' ')
+    complete -c z -a $_z_marks -f
+end
+_z_update_completions
